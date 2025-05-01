@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Find healthy recipes with complete nutritional details. Stay fit and enjoy delicious meals!">
+    <title>Home - Healthy Recipes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">HealthyPlates</a>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/recipes.html">Recipes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/submit.html">Add Recipe</a>
+                    </li>                    
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <div class="container text-center">
+            <h1>Welcome to HealthyPlates</h1>
+            <p>Your go-to destination for nutritious and delicious meal ideas. Explore recipes that fuel your body and your taste buds!</p>
+        </div>
+    </header>
+
+     <!-- Why Choose Us Section -->
+     <section class="why-choose-us">
+        <div class="container text-center">
+            <h2>Why Choose Healthy Recipes?</h2>
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-box">
+                        <img src="https://images.pexels.com/photos/28962427/pexels-photo-28962427/free-photo-of-gourmet-flatbread-with-red-cabbage-topping.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Nutritional Information" class="img-fluid">
+                        <h3>Complete Nutritional Info</h3>
+                        <p>Each recipe comes with detailed nutritional information like calories, proteins, fats, and more to keep your diet on track.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-box">
+                        <img src="https://images.pexels.com/photos/2262045/pexels-photo-2262045.png?auto=compress&cs=tinysrgb&w=600" alt="Healthy Ingredients" class="img-fluid">
+                        <h3>Fresh Ingredients</h3>
+                        <p>Our recipes use fresh and wholesome ingredients that promote overall health and well-being.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-box">
+                        <img src="https://images.pexels.com/photos/4099237/pexels-photo-4099237.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Quick and Easy" class="img-fluid">
+                        <h3>Quick & Easy to Make</h3>
+                        <p>Our recipes are designed to be quick, easy, and beginner-friendly, so you can enjoy delicious meals without the hassle.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+    <!-- Popular Recipes Section -->
+    <section class="popular-recipes">
+        <div class="container text-center">
+            <h2>Popular Recipes</h2>
+            <div class="row" id="recipe-list">
+                <!-- Recipe Cards will be populated here -->
+            </div>
+        </div>
+    </section>
+
+    
+
+    <!-- Footer Section -->
+    <footer class="bg-dark text-white text-center py-4">
+  
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Fetch recipes from the server and display them in the "Popular Recipes" section
+        async function fetchRecipes() {
+            try {
+                const response = await fetch('/api/recipes');
+                const recipes = await response.json();
+                const recipeList = document.getElementById('recipe-list');
+
+                recipeList.innerHTML = ''; // Clear existing content
+
+                recipes.forEach(recipe => {
+                    const recipeCard = `
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card recipe-card">
+                                <img src="${recipe.imageURL}" class="card-img-top" alt="${recipe.title}">
+                                <div class="card-body">
+                                    <h5 class="card-title">${recipe.title}</h5>
+                                    <a href="/recipes.html?id=${recipe._id}" class="btn btn-primary">View Recipe</a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    recipeList.innerHTML += recipeCard;
+                });
+            } catch (error) {
+                console.error('Error fetching recipes:', error);
+            }
+        }
+
+        // Call the function to fetch recipes when the page loads
+        fetchRecipes();
+    </script>
+</body>
+</html>
